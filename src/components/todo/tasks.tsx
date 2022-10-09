@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,8 +6,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Todo, status } from './todo-get';
+import { status } from './todo-get';
 import Button from '@mui/material/Button';
+import axios from 'axios';
+import { Todo } from './todo';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,9 +34,21 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 interface taskProps {
     todoList?: Todo[];
     status: status;
+    updateListState:(todo:Todo[]) => void;
 }
 
 export function Task(props: taskProps) {
+
+  const updateStatus =(id:number, status:string) => {
+    axios.put(`https://localhost:44378/api/Todo?id=${id}&status=${status}`)
+    .then((res) => {
+      props.updateListState(res.data);
+  })
+  .catch((err) => {
+      console.log("error updating");
+  });
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -44,7 +57,7 @@ export function Task(props: taskProps) {
             <StyledTableCell align="center">Title</StyledTableCell>
             <StyledTableCell align="center">Description</StyledTableCell>
             <StyledTableCell align="center">Status</StyledTableCell>
-            <StyledTableCell align="center">Action</StyledTableCell>
+            <StyledTableCell align="center">Move to</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -55,7 +68,7 @@ export function Task(props: taskProps) {
               <StyledTableCell align="center">{row.description}</StyledTableCell>
               <StyledTableCell align="center">{row.status}</StyledTableCell>
               <StyledTableCell align="center">
-                <Button variant="contained" color={props.status === status.Pending ? 'success' : 'secondary'}>
+                <Button variant="contained" color={props.status === status.Pending ? 'success' : 'secondary'} onClick={() => updateStatus(row.id,row.status)}>
                   {props.status === status.Pending ? status.Completed : status.Pending}
                 </Button>
               </StyledTableCell>
