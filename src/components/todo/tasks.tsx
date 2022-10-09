@@ -39,14 +39,15 @@ interface taskProps {
 
 export function Task(props: taskProps) {
 
-  const updateStatus =(id:number, status:string) => {
-    axios.put(`https://localhost:44378/api/Todo?id=${id}&status=${status}`)
-    .then((res) => {
-      props.updateListState(res.data);
-  })
-  .catch((err) => {
-      console.log("error updating");
-  });
+  const updateStatus =(id:number, currStatus:string) => {
+
+    const currState = [...props.todoList!];
+    const updateObj = props.todoList!.find(x => x.id === id);
+    currStatus === status.Pending ?
+    updateObj!.status = status.Completed :
+    updateObj!.status = status.Pending;
+    props.updateListState(currState);
+
   }
 
   return (

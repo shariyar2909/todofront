@@ -10,7 +10,7 @@ import { Todo } from './todo';
         
 interface NewTodoProps{
     setTodoList: (todo:Todo[]) => void;
-    todoList?: any;
+    todoList?: Todo[];
 }
 export  function NewTodo(props: NewTodoProps) {
     const [open, setOpen] = React.useState(false);
@@ -22,13 +22,15 @@ export  function NewTodo(props: NewTodoProps) {
     };
         
     const addNew = () => {
-        console.log(props.todoList);
-        props.setTodoList([...props.todoList,{
+        props.setTodoList([...props.todoList!,{
             id: props.todoList!.length + 1, 
-            title: title == undefined ? '' : title, 
-            description: description == undefined ? '' :  description, status: 'pending'
+            title: title === undefined ? '' : title, 
+            description: description === undefined ? '' :  description, status: 'pending'
         } ]);
         setOpen(false);
+        setDescrption('');
+        setTitle('');
+
     };
         
     return (
