@@ -1,37 +1,21 @@
-import axios from 'axios';
-import {useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Task } from './tasks';
+import { Todo } from './todo';
 
 
-export interface Todo {
-    id: number;
-    title: string;
-    description: string;
-    status: string;
-}
+
 
 export const enum status {
     Pending = 'pending',
     Completed = 'completed',
 }
-export function TodoGet() {
-
-    const [todoList, setTodoList] = useState<Todo[]>();
-
-    useEffect(()=>{
-        axios.get<Todo[]>(`https://localhost:44378/api/Todo`)
-        .then((res) => {
-            setTodoList(res.data);
-        })
-        .catch((err) => {
-            console.log("error getting post code");
-        });
-    },[]);
-
-
+interface todoGetPros{
+    todoList?:Todo[];
+    setTodoList:(todo:Todo[]) => void;
+}
+export function TodoGet(props: todoGetPros) {
     return(
         <div className='row'>
             <div className='column'>
@@ -40,7 +24,7 @@ export function TodoGet() {
                     <Typography sx={{ fontSize: 18 }} color="black" bgcolor='yellow' gutterBottom>
                         Pending Task
                     </Typography>
-                    <Task todoList={todoList} status={status.Pending}/>
+                    <Task todoList={props.todoList} status={status.Pending} updateListState={props.setTodoList}/>
                 </CardContent>
             </Card>
             </div>
@@ -50,7 +34,7 @@ export function TodoGet() {
                     <Typography sx={{ fontSize: 18 }} color="black" bgcolor='greenyellow' gutterBottom>
                         Completed Task
                     </Typography>
-                    <Task todoList={todoList} status={status.Completed}/>
+                    <Task todoList={props.todoList} status={status.Completed} updateListState={props.setTodoList}/>
                 </CardContent>
             </Card>
             </div>
