@@ -1,4 +1,5 @@
 import { TodoGet } from './todo-get';
+import { NewTodo } from './insertTodo'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -27,6 +28,7 @@ export function TodoList() {
             <div className="topnav">
                 <h1 className="p-2"> TODO List</h1>
             </div>
+            <NewTodo todoList={todoList} setTodoList={setTodoList}/>
             <TodoGet todoList={todoList} setTodoList={setTodoList}/>
         </div>
         
