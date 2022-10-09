@@ -24,4 +24,16 @@ code {
 .column {
   float: left;
   width: 40%;
+  padding: 20px;
+}
+
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+  width:90%;
+  color:aliceblue;
+}
+
+.container {
+  text-align: -webkit-center;
 }

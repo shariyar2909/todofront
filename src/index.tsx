@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { TodoList } from './components/todo/todo';
 
@@ -10,7 +9,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.Fragment>
-    {/* <App /> */}
     <TodoList/>
   </React.Fragment>
 );
