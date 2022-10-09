@@ -1,18 +1,23 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import { Task } from './tasks';
 
+
+export interface Todo {
+    id: number;
+    title: string;
+    description: string;
+    status: string;
+}
+
+export const enum status {
+    Pending = 'pending',
+    Completed = 'completed',
+}
 export function TodoGet() {
-
-    interface Todo {
-        id: number;
-        title: string;
-        description: string;
-        status: string;
-    }
-    const enum status {
-        Pending = 'pending',
-        Completed = 'completed',
-    }
 
     const [todoList, setTodoList] = useState<Todo[]>();
 
@@ -29,25 +34,25 @@ export function TodoGet() {
 
     return(
         <div className='row'>
-            <div className='column'>Pending Task
-                {todoList?.map(item => (
-                    item.status === status.Pending &&
-                    <tr key={item.id}>
-                            <td>{item.title}</td>
-                            <td>{item.description}</td>
-                            <td>{item.status}</td>
-                    </tr>
-                ))}
+            <div className='column'>
+            <Card sx={{ minWidth: 275 }}>
+                <CardContent>
+                    <Typography sx={{ fontSize: 18 }} color="black" bgcolor='yellow' gutterBottom>
+                        Pending Task
+                    </Typography>
+                    <Task todoList={todoList} status={status.Pending}/>
+                </CardContent>
+            </Card>
             </div>
-            <div className='column'> Completed Task
-                    {todoList?.map(item => (
-                        item.status === status.Completed &&
-                        <tr key={item.id}>
-                            <td>{item.title}</td>
-                            <td>{item.description}</td>
-                            <td>{item.status}</td>
-                        </tr>
-                    ))}
+            <div className='column'>
+            <Card sx={{ minWidth: 275 }}>
+                <CardContent>
+                    <Typography sx={{ fontSize: 18 }} color="black" bgcolor='greenyellow' gutterBottom>
+                        Completed Task
+                    </Typography>
+                    <Task todoList={todoList} status={status.Completed}/>
+                </CardContent>
+            </Card>
             </div>
         </div>
     );
